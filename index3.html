@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Marvel Cinematic Universe: From Phase 1 to Now and Beyond</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #c8102e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #c8102e;
+        }
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .movie-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            background: #fff;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .poster {
+            width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .poster:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+        }
+        
+        /* Chatbot Styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-container.minimized {
+            height: 60px;
+        }
+        
+        .chatbot-header {
+            background-color: #c8102e;
+            color: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .chatbot-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        .chatbot-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chatbot-container.minimized .chatbot-body {
+            display: none;
+        }
+        
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        
+        .bot-message {
+            background-color: #f1f1f1;
+            align-self: flex-start;
+        }
+        
+        .user-message {
+            background-color: #c8102e;
+            color: white;
+            align-self: flex-end;
+        }
+        
+        .chatbot-input-container {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .chatbot-container.minimized .chatbot-input-container {
+            display: none;
+        }
+        
+        .chatbot-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+        
+        .chatbot-send-btn {
+            background-color: #c8102e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .chatbot-toggle {
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            margin-bottom: 10px;
+        }
+        
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #999;
+            margin-right: 3px;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .quick-question {
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .quick-question:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>The Marvel Cinematic Universe: A Comprehensive Overview</h1>
+        <p>Exploring all MCU movies from Phase 1 to the present, including budgets, box office collections, and audience reviews. Plus, a look at future plans.</p>
+    </header>
+
+    <section id="intro">
+        <h2>Introduction to the MCU</h2>
+        <p>The Marvel Cinematic Universe (MCU) is the highest-grossing film franchise of all time, with a total worldwide box office exceeding $32.4 billion. Starting with Iron Man in 2008, the MCU has expanded into multiple phases, each building on the last to create an interconnected universe of superheroes, villains, and epic storylines. In this blog post, we'll break down each phase, highlighting key movies, their budgets, box office earnings, and audience reception based on Rotten Tomatoes audience scores and IMDb ratings where available.</p>
+    </section>
+
+    <section id="phase1">
+        <h2>Phase 1 (2008-2012)</h2>
+        <p>Phase 1 introduced the core Avengers team and set the foundation for the MCU.</p>
+        <div class="movie-grid">
+            <div class="movie-card">
+                <img src="img/iron man 1.jpg" alt="Poster for Iron Man" class="poster" data-movie="Iron Man" data-url="https://www.imdb.com/title/tt0371746/">
+                <h3>Iron Man</h3>
+                <p>Budget: $140M</p>
+                <p>Box Office: $585.8M</p>
+                <p>RT Audience: 91%</p>
+                <p>IMDb: 7.9</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/hulk.jpg" alt="Poster for The Incredible Hulk" class="poster" data-movie="The Incredible Hulk" data-url="https://www.imdb.com/title/tt0800080/">
+                <h3>The Incredible Hulk</h3>
+                <p>Budget: $137.5-150M</p>
+                <p>Box Office: $264.8M</p>
+                <p>RT Audience: 69%</p>
+                <p>IMDb: 6.6</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/iron man 2.jpg" alt="Poster for Iron Man 2" class="poster" data-movie="Iron Man 2" data-url="https://www.imdb.com/title/tt1228705/">
+                <h3>Iron Man 2</h3>
+                <p>Budget: $170-200M</p>
+                <p>Box Office: $623.9M</p>
+                <p>RT Audience: 71%</p>
+                <p>IMDb: 6.9</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/thor.jpg" alt="Poster for Thor" class="poster" data-movie="Thor" data-url="https://www.imdb.com/title/tt0800369/">
+                <h3>Thor</h3>
+                <p>Budget: $150M</p>
+                <p>Box Office: $449.3M</p>
+                <p>RT Audience: 76%</p>
+                <p>IMDb: 7.0</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/captain america first avenger.jpg" alt="Poster for Captain America: The First Avenger" class="poster" data-movie="Captain America: The First Avenger" data-url="https://www.imdb.com/title/tt0458339/">
+                <h3>Captain America: The First Avenger</h3>
+                <p>Budget: $140M</p>
+                <p>Box Office: $370.6M</p>
+                <p>RT Audience: 75%</p>
+                <p>IMDb: 6.9</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/the avengers.jpg" alt="Poster for The Avengers" class="poster" data-movie="The Avengers" data-url="https://www.imdb.com/title/tt0848228/">
+                <h3>The Avengers</h3>
+                <p>Budget: $220M</p>
+                <p>Box Office: $1520.5M</p>
+                <p>RT Audience: 91%</p>
+                <p>IMDb: 8.0</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="phase2">
+        <h2>Phase 2 (2013-2015)</h2>
+        <p>Phase 2 expanded the universe with new heroes and deeper lore.</p>
+        <div class="movie-grid">
+            <div class="movie-card">
+                <img src="img/iron man 3.jpg" alt="Poster for Iron Man 3" class="poster" data-movie="Iron Man 3" data-url="https://www.imdb.com/title/tt1300854/">
+                <h3>Iron Man 3</h3>
+                <p>Budget: $200M</p>
+                <p>Box Office: $1215.6M</p>
+                <p>RT Audience: 78%</p>
+                <p>IMDb: 7.1</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/thor dark world.jpg" alt="Poster for Thor: The Dark World" class="poster" data-movie="Thor: The Dark World" data-url="https://www.imdb.com/title/tt1981115/">
+                <h3>Thor: The Dark World</h3>
+                <p>Budget: $150-170M</p>
+                <p>Box Office: $644.8M</p>
+                <p>RT Audience: 74%</p>
+                <p>IMDb: 6.8</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/captain_america_the_winter_soldier_ver7.jpg" alt="Poster for Captain America: The Winter Soldier" class="poster" data-movie="Captain America: The Winter Soldier" data-url="https://www.imdb.com/title/tt1843866/">
+                <h3>Captain America: The Winter Soldier</h3>
+                <p>Budget: $170-177M</p>
+                <p>Box Office: $714.4M</p>
+                <p>RT Audience: 92%</p>
+                <p>IMDb: 7.8</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/guardians_of_the_galaxy_.jpg" alt="Poster for Guardians of the Galaxy" class="poster" data-movie="Guardians of the Galaxy" data-url="https://www.imdb.com/title/tt2015381/">
+                <h3>Guardians of the Galaxy</h3>
+                <p>Budget: $170M</p>
+                <p>Box Office: $773.4M</p>
+                <p>RT Audience: 92%</p>
+                <p>IMDb: 8.0</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/avengers_age_of_ultron_ver11.jpg" alt="Poster for Avengers: Age of Ultron" class="poster" data-movie="Avengers: Age of Ultron" data-url="https://www.imdb.com/title/tt2395427/">
+                <h3>Avengers: Age of Ultron</h3>
+                <p>Budget: $250-444M</p>
+                <p>Box Office: $1405.0M</p>
+                <p>RT Audience: 82%</p>
+                <p>IMDb: 7.3</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/ant_man.jpg" alt="Poster for Ant-Man" class="poster" data-movie="Ant-Man" data-url="https://www.imdb.com/title/tt0478970/">
+                <h3>Ant-Man</h3>
+                <p>Budget: $130M</p>
+                <p>Box Office: $519.3M</p>
+                <p>RT Audience: 85%</p>
+                <p>IMDb: 7.2</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="phase3">
+        <h2>Phase 3 (2016-2019)</h2>
+        <p>Phase 3 culminated in the Infinity Saga with massive crossovers.</p>
+        <div class="movie-grid">
+            <div class="movie-card">
+                <img src="img/captain_america_civil_war.jpg" alt="Poster for Captain America: Civil War" class="poster" data-movie="Captain America: Civil War" data-url="https://www.imdb.com/title/tt3498820/">
+                <h3>Captain America: Civil War</h3>
+                <p>Budget: $250M</p>
+                <p>Box Office: $1155.0M</p>
+                <p>RT Audience: 89%</p>
+                <p>IMDb: 7.8</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/doctor_strange.jpg" alt="Poster for Doctor Strange" class="poster" data-movie="Doctor Strange" data-url="https://www.imdb.com/title/tt1211837/">
+                <h3>Doctor Strange</h3>
+                <p>Budget: $165M</p>
+                <p>Box Office: $677.8M</p>
+                <p>RT Audience: 86%</p>
+                <p>IMDb: 7.5</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/guardians_of_the_galaxy_vol_two.jpg" alt="Poster for Guardians of the Galaxy Vol. 2" class="poster" data-movie="Guardians of the Galaxy Vol. 2" data-url="https://www.imdb.com/title/tt3896198/">
+                <h3>Guardians of the Galaxy Vol. 2</h3>
+                <p>Budget: $200M</p>
+                <p>Box Office: $863.8M</p>
+                <p>RT Audience: 85%</p>
+                <p>IMDb: 7.6</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/spiderman_homecoming.jpg" alt="Poster for Spider-Man: Homecoming" class="poster" data-movie="Spider-Man: Homecoming" data-url="https://www.imdb.com/title/tt2250912/">
+                <h3>Spider-Man: Homecoming</h3>
+                <p>Budget: $175M</p>
+                <p>Box Office: $880.2M</p>
+                <p>RT Audience: 87%</p>
+                <p>IMDb: 7.4</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/thor_ragnarok.jpg" alt="Poster for Thor: Ragnarok" class="poster" data-movie="Thor: Ragnarok" data-url="https://www.imdb.com/title/tt3501632/">
+                <h3>Thor: Ragnarok</h3>
+                <p>Budget: $180M</p>
+                <p>Box Office: $855.3M</p>
+                <p>RT Audience: 87%</p>
+                <p>IMDb: 7.9</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/black_panther.jpg" alt="Poster for Black Panther" class="poster" data-movie="Black Panther" data-url="https://www.imdb.com/title/tt1825683/">
+                <h3>Black Panther</h3>
+                <p>Budget: $200M</p>
+                <p>Box Office: $1375.0M</p>
+                <p>RT Audience: 79%</p>
+                <p>IMDb: 7.3</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/avengers_infinity_war_.jpg" alt="Poster for Avengers: Infinity War" class="poster" data-movie="Avengers: Infinity War" data-url="https://www.imdb.com/title/tt4154756/">
+                <h3>Avengers: Infinity War</h3>
+                <p>Budget: $325-400M</p>
+                <p>Box Office: $2052.4M</p>
+                <p>RT Audience: 92%</p>
+                <p>IMDb: 8.4</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/antman_and_the_wasp2.jpg" alt="Poster for Ant-Man and the Wasp" class="poster" data-movie="Ant-Man and the Wasp" data-url="https://www.imdb.com/title/tt5095030/">
+                <h3>Ant-Man and the Wasp</h3>
+                <p>Budget: $162M</p>
+                <p>Box Office: $622.7M</p>
+                <p>RT Audience: 79%</p>
+                <p>IMDb: 7.0</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/captain_marvel.jpg" alt="Poster for Captain Marvel" class="poster" data-movie="Captain Marvel" data-url="https://www.imdb.com/title/tt4154664/">
+                <h3>Captain Marvel</h3>
+                <p>Budget: $150-175M</p>
+                <p>Box Office: $1131.4M</p>
+                <p>RT Audience: 45%</p>
+                <p>IMDb: 6.8</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/avengers_endgame.jpg" alt="Poster for Avengers: Endgame" class="poster" data-movie="Avengers: Endgame" data-url="https://www.imdb.com/title/tt4154796/">
+                <h3>Avengers: Endgame</h3>
+                <p>Budget: $356-400M</p>
+                <p>Box Office: $2799.4M</p>
+                <p>RT Audience: 90%</p>
+                <p>IMDb: 8.4</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/spiderman_far_from_home.jpg" alt="Poster for Spider-Man: Far From Home" class="poster" data-movie="Spider-Man: Far From Home" data-url="https://www.imdb.com/title/tt6320628/">
+                <h3>Spider-Man: Far From Home</h3>
+                <p>Budget: $160M</p>
+                <p>Box Office: $1138.1M</p>
+                <p>RT Audience: 95%</p>
+                <p>IMDb: 7.4</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="phase4">
+        <h2>Phase 4 (2021-2022)</h2>
+        <p>Phase 4 dealt with the aftermath of Endgame and introduced new heroes.</p>
+        <div class="movie-grid">
+            <div class="movie-card">
+                <img src="img/black_widow.jpg" alt="Poster for Black Widow" class="poster" data-movie="Black Widow" data-url="https://www.imdb.com/title/tt3480822/">
+                <h3>Black Widow</h3>
+                <p>Budget: $200M</p>
+                <p>Box Office: $379.8M</p>
+                <p>RT Audience: 91%</p>
+                <p>IMDb: 6.7</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/shangchi_and_the_legend_of_the_ten_rings.jpg" alt="Poster for Shang-Chi and the Legend of the Ten Rings" class="poster" data-movie="Shang-Chi and the Legend of the Ten Rings" data-url="https://www.imdb.com/title/tt9376612/">
+                <h3>Shang-Chi and the Legend of the Ten Rings</h3>
+                <p>Budget: $150-200M</p>
+                <p>Box Office: $432.2M</p>
+                <p>RT Audience: 98%</p>
+                <p>IMDb: 7.4</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/eternals.jpg" alt="Poster for Eternals" class="poster" data-movie="Eternals" data-url="https://www.imdb.com/title/tt9032400/">
+                <h3>Eternals</h3>
+                <p>Budget: $236.2M</p>
+                <p>Box Office: $402.1M</p>
+                <p>RT Audience: 77%</p>
+                <p>IMDb: 6.3</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/spiderman_no_way_home.jpg" alt="Poster for Spider-Man: No Way Home" class="poster" data-movie="Spider-Man: No Way Home" data-url="https://www.imdb.com/title/tt10872600/">
+                <h3>Spider-Man: No Way Home</h3>
+                <p>Budget: $200M</p>
+                <p>Box Office: $1928.0M</p>
+                <p>RT Audience: 98%</p>
+                <p>IMDb: 8.2</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/doctor_strange_in_the_multiverse_of_madness.jpg" alt="Poster for Doctor Strange in the Multiverse of Madness" class="poster" data-movie="Doctor Strange in the Multiverse of Madness" data-url="https://www.imdb.com/title/tt9419884/">
+                <h3>Doctor Strange in the Multiverse of Madness</h3>
+                <p>Budget: $172-200M</p>
+                <p>Box Office: $955.8M</p>
+                <p>RT Audience: 74%</p>
+                <p>IMDb: 6.9</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/thor_love_and_thunder.jpg" alt="Poster for Thor: Love and Thunder" class="poster" data-movie="Thor: Love and Thunder" data-url="https://www.imdb.com/title/tt10648342/">
+                <h3>Thor: Love and Thunder</h3>
+                <p>Budget: $250M</p>
+                <p>Box Office: $760.9M</p>
+                <p>RT Audience: 76%</p>
+                <p>IMDb: 6.2</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/black_panther_wakanda_forever.jpg" alt="Poster for Black Panther: Wakanda Forever" class="poster" data-movie="Black Panther: Wakanda Forever" data-url="https://www.imdb.com/title/tt9114286/">
+                <h3>Black Panther: Wakanda Forever</h3>
+                <p>Budget: $250M</p>
+                <p>Box Office: $859.2M</p>
+                <p>RT Audience: 84%</p>
+                <p>IMDb: 6.7</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="phase5">
+        <h2>Phase 5 (2023-2025)</h2>
+        <p>Phase 5 continued the Multiverse Saga with new adventures and team-ups.</p>
+        <div class="movie-grid">
+            <div class="movie-card">
+                <img src="img/antman_and_the_wasp_quantumania.jpg" alt="Poster for Ant-Man and the Wasp: Quantumania" class="poster" data-movie="Ant-Man and the Wasp: Quantumania" data-url="https://www.imdb.com/title/tt10954600/">
+                <h3>Ant-Man and the Wasp: Quantumania</h3>
+                <p>Budget: $326.9-388.4M</p>
+                <p>Box Office: $476.1M</p>
+                <p>RT Audience: 77%</p>
+                <p>IMDb: 6.1</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/guardiansofthegalaxyvolume3.jpg" alt="Poster for Guardians of the Galaxy Vol. 3" class="poster" data-movie="Guardians of the Galaxy Vol. 3" data-url="https://www.imdb.com/title/tt6791350/">
+                <h3>Guardians of the Galaxy Vol. 3</h3>
+                <p>Budget: $250M</p>
+                <p>Box Office: $845.6M</p>
+                <p>RT Audience: 94%</p>
+                <p>IMDb: 7.9</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/themarvels.jpg" alt="Poster for The Marvels" class="poster" data-movie="The Marvels" data-url="https://www.imdb.com/title/tt10676548/">
+                <h3>The Marvels</h3>
+                <p>Budget: $219.8-375M</p>
+                <p>Box Office: $206.1M</p>
+                <p>RT Audience: 79%</p>
+                <p>IMDb: 5.6</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/deadpoolandwolverine.jpg" alt="Poster for Deadpool & Wolverine" class="poster" data-movie="Deadpool & Wolverine" data-url="https://www.imdb.com/title/tt6264654/">
+                <h3>Deadpool & Wolverine</h3>
+                <p>Budget: $200M</p>
+                <p>Box Office: $1338.1M</p>
+                <p>RT Audience: 94%</p>
+                <p>IMDb: 8.0</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/captainamericabravenewworld.jpg" alt="Poster for Captain America: Brave New World" class="poster" data-movie="Captain America: Brave New World" data-url="https://www.imdb.com/title/tt9345622/">
+                <h3>Captain America: Brave New World</h3>
+                <p>Budget: $180M</p>
+                <p>Box Office: $415M</p>
+                <p>RT Audience: 80%</p>
+                <p>IMDb: 5.6</p>
+            </div>
+            <div class="movie-card">
+                <img src="img/thunderbolt.jpg" alt="Poster for Thunderbolts*" class="poster" data-movie="Thunderbolts*" data-url="https://www.imdb.com/title/tt10676548/">
+                <h3>Thunderbolts*</h3>
+                <p>Budget: $180M</p>
+                <p>Box Office: $382.4M</p>
+                <p>RT Audience: 93%</p>
+                <p>IMDb: 7.2</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="phase6">
+        <h2>Phase 6 (2025-)</h2>
+        <p>Phase 6 kicks off the next chapter, with released films as of October 2025.</p>
+        <div class="movie-grid" style="height: 700x;">
+            <div class="movie-card" >
+                <img src="img/fantastic four.jpg" alt="Poster for The Fantastic Four: First Steps" class="poster" data-movie="The Fantastic Four: First Steps" data-url="https://www.imdb.com/title/tt12672280/">
+                <h3>The Fantastic Four: First Steps</h3>
+                <p>Budget: $200M</p>
+                <p>Box Office: $517.2M</p>
+                <p>RT Audience: 92%</p>
+                <p>IMDb: 7.5</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="future">
+        <h2>MCU Future Plans</h2>
+        <p>The MCU's Multiverse Saga continues with exciting upcoming projects in Phase 6 and beyond. Here's a look at confirmed films and series:</p>
+        <ul>
+            <li><strong>Blade</strong> - November 7, 2025: Starring Mahershala Ali as the vampire hunter.</li>
+            <li><strong>Daredevil: Born Again</strong> - 2025: Starring Charlie Cox.</li>
+            <li><strong>Ironheart</strong> - 2025: Starring Dominique Thorne.</li>
+            <li><strong>Wonder Man</strong> - 2025: Starring Yahya Abdul-Mateen II.</li>
+            <li><strong>Spider-Man: Brand New Day</strong> - July 31, 2026: Tom Holland returns.</li>
+            <li><strong>Avengers: Doomsday</strong> - December 18, 2026: Featuring Robert Downey Jr. as Victor von Doom.</li>
+            <li><strong>Avengers: Secret Wars</strong> - December 17, 2027: The epic conclusion to the Multiverse Saga.</li>
+            <li><strong>Untitled Film</strong> - July 2027: Possibly Black Panther 3, with Denzel Washington in a role.</li>
+            <li><strong>Vision Series</strong> - TBD: Second WandaVision spin-off featuring Paul Bettany.</li>
+            <li><strong>The Punisher Special</strong> - TBD: One-shot presentation with Jon Bernthal.</li>
+        </ul>
+        <p>Marvel Studios plans to focus on quality with potential expansions through 2032.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 MCU Blog. All rights reserved. Data sourced from Wikipedia, Rotten Tomatoes, IMDb, and other public sources.</p>
+    </footer>
+
+    <div class="notification" id="notification"></div>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container minimized" id="chatbot">
+        <div class="chatbot-header" id="chatbot-header">
+            <h3>MCU Assistant</h3>
+            <span class="chatbot-toggle" id="chatbot-toggle">+</span>
+        </div>
+        <div class="chatbot-body" id="chatbot-body">
+            <div class="chat-message bot-message">
+                Hello! I'm your MCU assistant. Ask me anything about the Marvel Cinematic Universe!
+            </div>
+            <div class="quick-questions">
+                <div class="quick-question">Highest grossing film?</div>
+                <div class="quick-question">How many phases?</div>
+                <div class="quick-question">Who directed Endgame?</div>
+                <div class="quick-question">First MCU movie?</div>
+            </div>
+            <div class="typing-indicator" id="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="chatbot-input-container">
+            <input type="text" class="chatbot-input" id="chatbot-input" placeholder="Ask a question...">
+            <button class="chatbot-send-btn" id="chatbot-send">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all movie posters
+            const posters = document.querySelectorAll('.poster');
+            
+            // Add click event to each poster
+            posters.forEach(poster => {
+                poster.addEventListener('click', function() {
+                    // Get the URL from data-url attribute
+                    const url = this.dataset.url;
+                    const movieName = this.dataset.movie;
+                    
+                    if (url) {
+                        // Open URL in new tab
+                        window.open(url, '_blank');
+                        // Show notification
+                        showNotification(`Opening ${movieName} on IMDb`);
+                    } else {
+                        // Show notification if no URL is available
+                        showNotification(`No URL available for ${movieName}`);
+                    }
+                });
+            });
+            
+            // Function to show notification
+            function showNotification(message) {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.style.display = 'block';
+                
+                // Hide notification after 3 seconds
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+            
+            // Chatbot functionality
+            const chatbotContainer = document.getElementById('chatbot');
+            const chatbotHeader = document.getElementById('chatbot-header');
+            const chatbotToggle = document.getElementById('chatbot-toggle');
+            const chatbotBody = document.getElementById('chatbot-body');
+            const chatbotInput = document.getElementById('chatbot-input');
+            const chatbotSend = document.getElementById('chatbot-send');
+            const typingIndicator = document.getElementById('typing-indicator');
+            
+            // Toggle chatbot open/closed
+            chatbotHeader.addEventListener('click', function() {
+                chatbotContainer.classList.toggle('minimized');
+                chatbotToggle.textContent = chatbotContainer.classList.contains('minimized') ? '+' : '−';
+            });
+            
+            // Predefined Q&A pairs
+            const qaPairs = [
+                {
+                    question: ["highest grossing film", "most successful movie", "top earning film"],
+                    answer: "Avengers: Endgame is the highest-grossing MCU film with a worldwide box office of $2.8 billion."
+                },
+                {
+                    question: ["how many phases", "number of phases", "mcu phases"],
+                    answer: "As of 2025, the MCU has 6 phases. Phase 1-3 comprised the Infinity Saga, and Phase 4-6 comprise the Multiverse Saga."
+                },
+                {
+                    question: ["who directed endgame", "endgame director", "avengers endgame director"],
+                    answer: "Avengers: Endgame was directed by Anthony and Joe Russo, also known as the Russo Brothers."
+                },
+                {
+                    question: ["first mcu movie", "first marvel movie", "start of mcu"],
+                    answer: "Iron Man (2008) was the first movie in the Marvel Cinematic Universe, directed by Jon Favreau and starring Robert Downey Jr."
+                },
+                {
+                    question: ["who is thanos", "thanos", "villain infinity war"],
+                    answer: "Thanos is a powerful Titan warlord who seeks the Infinity Stones to wipe out half of all life in the universe. He is the main antagonist of the Infinity Saga."
+                },
+                {
+                    question: ["infinity stones", "what are the infinity stones", "infinity gems"],
+                    answer: "The Infinity Stones are six powerful gems that control different aspects of the universe: Space, Mind, Reality, Power, Time, and Soul."
+                },
+                {
+                    question: ["who is the strongest avenger", "most powerful avenger", "strongest marvel hero"],
+                    answer: "While there's debate, many consider Thor or Hulk to be the physically strongest Avengers, while Scarlet Witch is arguably the most powerful in terms of abilities."
+                },
+                {
+                    question: ["stan lee cameo", "stan lee appearances", "stan lee in marvel movies"],
+                    answer: "Stan Lee, the co-creator of many Marvel characters, made cameo appearances in almost all MCU movies until his passing in 2018."
+                },
+                {
+                    question: ["post credit scenes", "end credit scenes", "mcu after credits"],
+                    answer: "Most MCU films include post-credit scenes that tease future movies, introduce new characters, or provide additional context to the story."
+                },
+                {
+                    question: ["what is the multiverse", "multiverse saga", "mcu multiverse"],
+                    answer: "The Multiverse is a concept introduced in Phase 4 of the MCU, featuring multiple parallel universes with different variants of characters and events."
+                },
+                {
+                    question: ["who plays spider-man", "tom holland", "spider-man actor"],
+                    answer: "Tom Holland plays Spider-Man in the MCU, first appearing in Captain America: Civil War (2016)."
+                },
+                {
+                    question: ["what is phase 4", "phase 4 movies", "mcu phase 4"],
+                    answer: "Phase 4 of the MCU (2021-2022) includes: Black Widow, Shang-Chi, Eternals, Spider-Man: No Way Home, Doctor Strange in the Multiverse of Madness, Thor: Love and Thunder, and Black Panther: Wakanda Forever."
+                },
+                {
+                    question: ["what is phase 5", "phase 5 movies", "mcu phase 5"],
+                    answer: "Phase 5 of the MCU (2023-2025) includes: Ant-Man and the Wasp: Quantumania, Guardians of the Galaxy Vol. 3, The Marvels, Deadpool & Wolverine, Captain America: Brave New World, and Thunderbolts*."
+                },
+                {
+                    question: ["upcoming movies", "future mcu", "what's next for marvel"],
+                    answer: "Upcoming MCU projects include: Blade (2025), Daredevil: Born Again (2025), Fantastic Four: First Steps (2025), Avengers: Doomsday (2026), and Avengers: Secret Wars (2027)."
+                },
+                {
+                    question: ["who is kang", "kang the conqueror", "new villain"],
+                    answer: "Kang the Conqueror is a time-traveling villain who serves as the main antagonist of the Multiverse Saga, similar to Thanos in the Infinity Saga."
+                }
+            ];
+            
+            // Function to find answer to user question
+            function findAnswer(userQuestion) {
+                const lowerQuestion = userQuestion.toLowerCase();
+                
+                for (const pair of qaPairs) {
+                    for (const keyword of pair.question) {
+                        if (lowerQuestion.includes(keyword)) {
+                            return pair.answer;
+                        }
+                    }
+                }
+                
+                // Default response if no match found
+                return "I'm not sure about that. You can ask me about MCU phases, highest-grossing films, directors, characters, or upcoming movies!";
+            }
+            
+            // Function to add message to chat
+            function addMessage(message, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('chat-message');
+                messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+                messageDiv.textContent = message;
+                
+                // Insert before typing indicator
+                chatbotBody.insertBefore(messageDiv, typingIndicator);
+                
+                // Scroll to bottom
+                chatbotBody.scrollTop = chatbotBody.scrollHeight;
+            }
+            
+            // Function to show typing indicator
+            function showTypingIndicator() {
+                typingIndicator.style.display = 'flex';
+                chatbotBody.scrollTop = chatbotBody.scrollHeight;
+            }
+            
+            // Function to hide typing indicator
+            function hideTypingIndicator() {
+                typingIndicator.style.display = 'none';
+            }
+            
+            // Function to handle user input
+            function handleUserInput() {
+                const userMessage = chatbotInput.value.trim();
+                
+                if (userMessage === '') return;
+                
+                // Add user message
+                addMessage(userMessage, true);
+                
+                // Clear input
+                chatbotInput.value = '';
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Simulate bot thinking
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    
+                    // Find and add bot response
+                    const botResponse = findAnswer(userMessage);
+                    addMessage(botResponse);
+                }, 1000);
+            }
+            
+            // Send message on button click
+            chatbotSend.addEventListener('click', handleUserInput);
+            
+            // Send message on Enter key
+            chatbotInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleUserInput();
+                }
+            });
+            
+            // Quick question buttons
+            const quickQuestions = document.querySelectorAll('.quick-question');
+            quickQuestions.forEach(button => {
+                button.addEventListener('click', function() {
+                    chatbotInput.value = this.textContent;
+                    handleUserInput();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
